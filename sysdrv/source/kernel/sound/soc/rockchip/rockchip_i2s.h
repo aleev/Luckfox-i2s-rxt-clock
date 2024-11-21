@@ -100,7 +100,7 @@
 #define I2S_CKR_TLP_INVERTED	(1 << I2S_CKR_TLP_SHIFT)
 #define I2S_CKR_TLP_MASK	(1 << I2S_CKR_TLP_SHIFT)
 #define I2S_CKR_MDIV_SHIFT	16
-#define I2S_CKR_MDIV(x)		((x - 1) << I2S_CKR_MDIV_SHIFT)
+#define I2S_CKR_MDIV(x)		((x) << I2S_CKR_MDIV_SHIFT)
 #define I2S_CKR_MDIV_MASK	(0xff << I2S_CKR_MDIV_SHIFT)
 #define I2S_CKR_RSD_SHIFT	8
 #define I2S_CKR_RSD(x)		((x - 1) << I2S_CKR_RSD_SHIFT)
