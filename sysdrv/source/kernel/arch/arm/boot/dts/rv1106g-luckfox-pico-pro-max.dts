@@ -87,7 +87,7 @@
 };
 
 &acodec {
-	status = "disable";
+	status = "okay";
 };
 
 &rtc {

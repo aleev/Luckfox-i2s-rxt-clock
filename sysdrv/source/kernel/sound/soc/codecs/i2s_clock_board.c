@@ -33,7 +33,7 @@
 struct i2s_clock_board_priv {
     struct device *dev;
     // child of clkin
-    struct clk *i2s_clk;
+    struct clk *mclk_tx;
     // clkin
     struct clk *i2s_pclk;
     // master clock ration
@@ -88,7 +88,7 @@ static int set_clock(struct i2s_clock_board_priv *priv, unsigned long rate)
     else
         DBGOUT("i2s_clock_board: %s clk_set_rate %lu OK\n", __func__, rate);
 
-    ret = clk_set_parent(priv->i2s_clk, priv->i2s_pclk);
+    ret = clk_set_parent(priv->mclk_tx, priv->i2s_pclk);
     if(ret)
         dev_err(priv->dev, "clk_set_parent error\n");
     else
@@ -202,7 +202,7 @@ static int i2s_clock_board_probe(struct platform_device *pdev)
     struct device *dev = &pdev->dev;
     struct i2s_clock_board_priv *priv;
     u32 mclk_fs;
-    struct clk *i2s_clk;
+    struct clk *mclk_tx;
 
     DBGOUT("i2s_clock_board: %s\n", __func__);
     priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
@@ -212,26 +212,26 @@ static int i2s_clock_board_probe(struct platform_device *pdev)
     dev_set_drvdata(dev, priv);
     priv->dev = &pdev->dev;
 
-    i2s_clk = devm_clk_get(&pdev->dev, "i2s_clk");
-    if (IS_ERR(i2s_clk)) {
+    mclk_tx = devm_clk_get(&pdev->dev, "mclk_tx");
+    if (IS_ERR(mclk_tx)) {
         dev_err(&pdev->dev, "Can't retrieve i2s clock\n");
-        return PTR_ERR(i2s_clk);
+        return PTR_ERR(mclk_tx);
     }
     else
-        DBGOUT("i2s_clock_board: %s get_clock %s OK\n", __func__, "i2s_clk");
+        DBGOUT("i2s_clock_board: %s get_clock %s OK\n", __func__, "mclk_tx");
 
-    priv->i2s_clk = clk_get_parent(i2s_clk);
-    if (IS_ERR(priv->i2s_clk)) {
+    priv->mclk_tx = clk_get_parent(mclk_tx);
+    if (IS_ERR(priv->mclk_tx)) {
         dev_err(&pdev->dev, "Can't retrieve parent of i2s clock\n");
-        return PTR_ERR(priv->i2s_clk);
+        return PTR_ERR(priv->mclk_tx);
     }
     else
         DBGOUT("i2s_clock_board: %s clk_get_parent OK\n", __func__);
 
-    priv->i2s_pclk = devm_clk_get(&pdev->dev, "i2s_pclk");
-    if (IS_ERR(priv->i2s_pclk)) {
+    priv->mclk_tx = devm_clk_get(&pdev->dev, "mclk_tx");
+    if (IS_ERR(priv->mclk_tx)) {
         dev_err(&pdev->dev, "Can't retrieve external i2s clock\n");
-        return PTR_ERR(priv->i2s_pclk);
+        return PTR_ERR(priv->mclk_tx);
     }
     else
         DBGOUT("i2s_clock_board: %s get_clock %s OK\n", __func__, "i2s_pclk");

@@ -1433,19 +1433,22 @@
 	};
 
 	i2s0_8ch: i2s@ffae0000 {
-		compatible = "rockchip,rk3288-i2s", "rockchip,rk3066-i2s";
+		compatible = "rockchip,rv1106-i2s-tdm";
 		reg = <0xffae0000 0x1000>;
 		interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
 		clocks = <&cru MCLK_I2S0_8CH_TX>, <&cru HCLK_I2S0>;
-		clock-names = "i2s_clk", "i2s_hclk";
-//		assigned-clocks = <&cru CLK_I2S0_8CH_TX_FRAC>;
-//		assigned-clock-parents = <&cru CLK_I2S0_8CH_TX_SRC>;
+		clock-names = "mclk_tx", "i2s_hclk";
+		assigned-clocks = <&cru CLK_I2S0_8CH_TX>;
+		assigned-clock-parents = <&i2s0_mclkin>;
 		dmas = <&dmac 22>, <&dmac 21>;
 		dma-names = "tx", "rx";
 		resets = <&cru SRST_M_I2S0_8CH_TX>, <&cru SRST_M_I2S0_8CH_RX>;
-		reset-names = "reset-m", "reset-h";
+		reset-names = "tx-m", "rx-m";
 		rockchip,clk-trcm = <1>;
 		#sound-dai-cells = <0>;
+		rockchip,cru = <&cru>;
+		rockchip,grf = <&grf>;
+		rockchip,playback-only;
                 pinctrl-names = "default";
 		pinctrl-0 = <&i2s0_lrck
 				&i2s0_mclk

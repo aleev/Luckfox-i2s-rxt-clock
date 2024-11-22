@@ -9,18 +9,19 @@
 		bootargs = "earlycon=uart8250,mmio32,0xff4c0000 console=ttyFIQ0 root=/dev/mmcblk1p7 rootwait snd_soc_core.prealloc_buffer_size_kbytes=128 coherent_pool=0";
 	};
 
-//	acodec_sound: acodec-sound {
-//		compatible = "simple-audio-card";
-//		simple-audio-card,name = "rv-acodec";
-//		simple-audio-card,format = "i2s";
-//		simple-audio-card,mclk-fs = <256>;
-//		simple-audio-card,cpu {
-//			sound-dai = <&i2s0_8ch>;
-//		};
-//		simple-audio-card,codec {
-//			sound-dai = <&acodec>;
-//		};
-//	};
+	acodec_sound: acodec-sound {
+		status = "okay";
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "rv-acodec";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,mclk-fs = <1024>;
+		simple-audio-card,cpu {
+			sound-dai = <&i2s0_8ch>;
+		};
+		simple-audio-card,codec {
+			sound-dai = <&acodec>;
+		};
+	};
 
 
         osc_49m: osc-49m {
@@ -43,29 +44,29 @@
                 clocks = <&osc_49m>, <&osc_45m>;
                 select-gpios = <&gpio1 RK_PD1 GPIO_ACTIVE_HIGH>;
         };
-        i2s0_out: i2s0-clock {
-                #sound-dai-cells = <0>;
-                compatible = "custom,i2s_clock_board";
-                status = "okay";
-                clocks = <&cru MCLK_I2S0_8CH_TX>, <&i2s0_mclkin>;
-                clock-names = "i2s_clk", "i2s_pclk";
-                mclk-fs = <1024>;
-        };
+//      i2s0_out: i2s0-clock {
+//                #sound-dai-cells = <0>;
+//                compatible = "custom,i2s_clock_board";
+//                status = "okay";
+//                clocks = <&cru MCLK_I2S0_8CH_TX>, <&i2s0_mclkin>;
+//                clock-names = "i2s_clk", "i2s_pclk";
+//                mclk-fs = <1024>;
+//        };
 
-        i2s_sound: i2s-sound {
-                compatible = "simple-audio-card";
-                simple-audio-card,format = "i2s";
-                simple-audio-card,name = "EXT-I2S-CARD";
-                status = "okay";
-
-                simple-audio-card,cpu {
-                    sound-dai = <&i2s0_8ch>;
-                };
-
-                simple-audio-card,codec {
-                    sound-dai = <&i2s0_out>;
-                };
-        };
+//        i2s_sound: i2s-sound {
+//                compatible = "simple-audio-card";
+//                simple-audio-card,format = "i2s";
+//                simple-audio-card,name = "EXT-I2S-CARD";
+//                status = "okay";
+//
+//                simple-audio-card,cpu {
+//                    sound-dai = <&i2s0_8ch>;
+//                };
+//
+//                simple-audio-card,codec {
+//                    sound-dai = <&i2s0_out>;
+//                };
+//        };
 
 
   
@@ -120,7 +121,7 @@
 
 &acodec {
 	#sound-dai-cells = <0>;
-	pa-ctl-gpios = <&gpio1 RK_PA1 GPIO_ACTIVE_HIGH>;
+//	pa-ctl-gpios = <&gpio1 RK_PA1 GPIO_ACTIVE_HIGH>;
 	status = "disable";
 };
 
