@@ -17,7 +17,7 @@
 #include <sound/soc.h>
 #include <sound/initval.h>
 
-#define UDA1334_NUM_RATES 6
+#define UDA1334_NUM_RATES 7
 
 /* codec private data */
 struct uda1334_priv {
@@ -85,6 +85,7 @@ static const struct {
 	{ 4, 384 },
 	{ 5, 512 },
 	{ 6, 768 },
+	{ 7, 1024},
 };
 
 static int uda1334_startup(struct snd_pcm_substream *substream,
@@ -148,6 +149,7 @@ static int uda1334_set_dai_sysclk(struct snd_soc_dai *codec_dai,
 		case 64000:
 		case 88200:
 		case 96000:
+		case 192000:
 			dev_dbg(component->dev, "Supported sample rate: %dHz\n",
 				val);
 			uda1334->rate_constraint_list[j++] = val;
@@ -190,7 +192,7 @@ static int uda1334_mute_stream(struct snd_soc_dai *dai, int mute, int stream)
 	return 0;
 }
 
-#define UDA1334_RATES SNDRV_PCM_RATE_8000_96000
+#define UDA1334_RATES SNDRV_PCM_RATE_8000_192000
 
 #define UDA1334_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE)
 

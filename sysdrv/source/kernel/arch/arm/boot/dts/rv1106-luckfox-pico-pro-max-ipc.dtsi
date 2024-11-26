@@ -45,9 +45,27 @@
                 #sound-dai-cells = <0>;
                 compatible = "nxp,uda1334";
                 status = "okay";
+		clocks = <&cru MCLK_SAI>;
+		clock-names = "mclk_sai";
 		nxp,mute-gpios = <&gpio1 RK_PD0 GPIO_ACTIVE_LOW>;
 		nxp,deemph-gpios = <&gpio2 RK_PB0 GPIO_ACTIVE_LOW>;
         };
+
+
+//	my_codec: my_codec {
+//		#sound-dai-cells = <0>;
+//		compatible = "simple-audio-card";
+//		status = "okay";
+//
+//	};
+
+//	pcm5102_master: pcm5102a {
+//		#sound-dai-cells = <0>;
+//		compatible = "ti,pcm5102a";
+//		clocks = <&i2s0_mclkin>;
+//		clock-names = "mclk";
+//	};
+
         i2s_sound: i2s-sound {
                 compatible = "simple-audio-card";
                 simple-audio-card,format = "i2s";
